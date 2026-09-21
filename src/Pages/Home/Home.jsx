@@ -9,6 +9,7 @@ import face from '../../Images/facebook.png'
 import pin from '../../Images/location.png'
 import linhas from '../../Images/linhas.png'
 import CrtlStudio from '../../Components/crtlStudio'
+import logo from '../../Images/fht1.jpeg'
 
 
 export default function Home() {
@@ -21,7 +22,7 @@ const url = `https://wa.me/${numero}`
     <div className={styles.Container}>
 
         <div className={styles.Content}>
-            <img className={styles.Logo} src="./src/Images/fht1.jpeg" alt="Logo" />
+            <img className={styles.Logo} src={logo} alt="Logo" />
         </div>
 
         <div className={styles.texto}>
