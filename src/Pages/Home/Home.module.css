@@ -1,0 +1,207 @@
+.Container{
+
+    display: flex;
+    flex-direction: column;
+    padding: 2px;
+    align-items: start;
+}
+
+.Content{
+
+    margin-top: -5px;
+    width: 100%;  
+}
+
+.Logo{
+
+    width: 100%;
+    border-radius: 20px;
+
+    -webkit-mask-image: linear-gradient(
+        to bottom,
+        black 30%,
+        transparent 100%
+    );
+
+    mask-image: linear-gradient(
+        to bottom,
+        black 30%,
+        transparent 100%
+    );
+}
+
+.texto{
+
+    margin-top: -45px;
+    margin-left: 10px;
+    color: white;
+    font-size: 0.7rem;
+    text-align: start;
+}
+
+
+.cardContent{
+
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    align-items: center;
+    justify-items: center;
+    margin: 10px;
+    width: 95%;
+    gap: 5px;
+
+}
+
+.cardItem{
+
+    display:grid;
+    grid-template-columns: 0.8fr 2fr 1fr;
+    gap: 10px;
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    border-left: 5px solid rgb(182, 12, 12);
+    background-color: rgba(26, 25, 25, 0.84);
+    padding: 15px;
+}
+
+.cardItem1{
+
+    display:grid;
+    grid-template-columns: 0.8fr 2fr 1fr;
+    gap: 10px;
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    border-left: 5px solid rgb(182, 12, 12);
+    background-color: rgba(57, 52, 52, 0.638);
+    padding: 15px;
+    box-shadow: 5px 5px 12px 1px rgba(255, 0, 0, 0.232);
+}
+
+.iconContent{
+
+    width: 25px;
+}
+
+.icon{
+
+    width: 100%;
+    color: white;
+}
+
+.descrição{
+
+    color: white;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+}
+
+.arrowContent{
+
+
+    margin-left: 50px;
+    display: flex;
+    width: 35px;
+  
+}
+
+.arrow{
+
+    width: 100%;
+}
+
+.contactosContent{
+
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    justify-items: center;
+    margin: 20px 0px 0px 10px ;
+    width: 95%;
+    border-radius: 12px;
+}
+
+
+
+.bloco{
+
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    gap: 2px;
+    align-items: center;
+    justify-items: center;
+    border-right: 1px solid rgb(64, 64, 66);
+    width: 100%;
+}
+
+
+.bloco1{
+
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    gap: 2px;
+    align-items: center;
+    justify-items: center;
+}
+
+.redesContent{
+
+    width: 30px;  
+}
+
+.redes{
+
+    width: 100%;
+}
+
+.button{
+
+    background-color: transparent;
+    border: none;
+}
+
+.link{
+
+    color: white;
+    font-size: 0.75rem;
+    text-align: center;
+    font-weight: 200;
+}
+
+.linhasContent{
+
+    width: 350px;
+    margin-top: -32px;
+
+}
+
+.linhas{
+
+    width: 100%;
+}
+
+.crtlContent{
+
+    display: flex;
+    margin-top: -52px;
+    justify-content: flex-end;
+    width: 100%;
+    align-items: center;
+}
+
+.crtlText{
+
+    color: rgba(255, 255, 255, 0.759);
+    font-size: 0.6rem;
+}
+
+.crtlLogo{
+
+    width: 85px;
+}
+
+.myLogo{
+
+    width: 100%;
+}

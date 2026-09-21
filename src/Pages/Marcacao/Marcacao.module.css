@@ -1,0 +1,320 @@
+.Container{
+
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;  
+    display: flow-root;
+}
+
+.header{
+
+    display: grid;
+    grid-template-columns: 0.5fr 1fr;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 0px 0px 10px;
+}
+
+.arrowContent{
+
+    width: 30px;
+}
+
+.arrow{
+
+    width: 100%;
+    transform: rotate(180deg);
+}
+
+.tituloContent{
+
+    display: flex;
+    text-align: center;
+    gap: 5px;
+    font-weight: 800;
+}
+
+.tituloBranco{
+
+    color: white;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+}
+
+.tituloVermelho{
+
+    color: rgb(236, 3, 3);
+    font-size: 1.2rem;
+    text-transform: uppercase;
+}
+
+.cardTipo{
+
+    display: grid;
+    grid-template-columns: 0.7fr 1.7fr 0.7fr;
+    align-items: center;
+    justify-content: center;
+    margin-top: 15px;
+    margin-left: 10px;
+    border: 1px solid rgba(120, 8, 8, 0.619);
+    width: 95%;
+    height: 90px;
+    border-radius: 15px;
+}
+
+.carroContent{
+
+    width: 70px;
+    padding: 8px;
+}
+
+.carro{
+
+    width: 100%;
+}
+
+.tipoContent{
+
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid rgb(149, 145, 145);
+    padding: 5px;
+}
+
+.servico{
+
+    color: white;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    
+}
+
+.descricaoServivo{
+
+    color:rgba(235, 170, 118, 0.874);
+    font-size: 0.7rem;
+}
+
+.precoContent{
+
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.tempoContent{
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5px;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+
+.preco{
+
+    color: white;
+    font-size: 1.2rem;
+
+}
+
+.tempo{
+
+    color: white;
+    font-size: 1.1rem;
+}
+
+
+.relogioContent{
+
+    width: 20px;
+}
+
+.relogio{
+
+    width: 100%;
+}
+
+.calendarioContent{
+
+    display: grid;
+    grid-template-columns: 0.5fr 1fr 0.5fr;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 0px 0px 10px;
+    border: 1px solid rgba(120, 8, 8, 0.619);
+    border-radius: 12px;
+    width: 95%;
+    padding: 8px;
+    gap: 3px;
+    background-color: rgba(3, 41, 48, 0.566);
+}
+
+.setas{
+
+    border: none;
+    background-color: transparent;
+    color: white;
+}
+
+.mes{
+
+    color: white;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.diaContent{
+
+    margin: 15px 0px 0px 10px;
+}
+
+.titulo {
+
+    color: white;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    margin: 20px 0px 10px 0px;
+}
+
+
+.dias {
+
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+    width: 95%;
+}
+
+.dia {
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 8px 0px;
+    background-color: transparent;
+    border: 1px solid rgba(120, 8, 8, 0.619);
+    border-radius: 10px;
+    color: white;
+}
+
+.diaSemana {
+
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    opacity: 0.8;
+    color:rgba(251, 148, 117, 0.698);
+}
+
+.diaNumero {
+
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.dia:disabled {
+    
+    opacity: 0.35;
+}
+
+
+.horas {
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    width: 95%;
+}
+
+.hora {
+
+    padding: 10px 14px;
+    background-color: transparent;
+    border: 1px solid rgba(120, 8, 8, 0.619);
+    border-radius: 10px;
+    color: white;
+    font-family: inherit;
+    font-weight: 600;
+}
+
+.semHoras {
+
+    color: rgb(149, 145, 145);
+    font-size: 0.85rem;
+}
+
+
+.ativo {
+
+    background-color: rgb(89, 3, 3);
+    border-color:  rgba(120, 8, 8, 0.619);
+    color: white;
+}
+
+.dadosContent{
+
+    margin: 40px 0px 0px 10px;
+}
+
+.form{
+
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5px;
+}
+
+.label{
+
+    color: rgb(250, 250, 250);
+    background-color: transparent;
+    border: 1px solid rgba(120, 8, 8, 0.619);
+    padding: 10px;
+    width: 95%;
+    border-radius: 12px;
+    text-transform: uppercase;
+}
+
+.dropBox{
+
+    color: rgb(250, 250, 250);
+    background-color: black;
+    border: 1px solid rgba(120, 8, 8, 0.619);
+    padding: 10px;
+    width: 95%;
+    border-radius: 12px;
+    text-transform: uppercase;
+}
+
+.confirmar {
+
+    grid-column: 1 / -1;   
+    width: 97%;
+    padding: 14px;
+    background-color: rgba(236, 3, 3, 0.500);
+    border: 1px solid rgb(236, 3, 3, 0.500);
+    border-radius: 12px;
+    color: white;
+    font-family: inherit;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+
+.confirmar:disabled {
+
+    background-color: transparent;
+    border: 1px solid rgba(51, 52, 53, 0.789);
+    color: rgb(149, 145, 145);
+    cursor: not-allowed;
+    width: 97%;
+}

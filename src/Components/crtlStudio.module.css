@@ -1,0 +1,24 @@
+.crtlContent{
+
+    display: flex;
+    margin-top: -52px;
+    justify-content: flex-end;
+    width: 100%;
+    align-items: center;
+}
+
+.crtlText{
+
+    color: rgba(255, 255, 255, 0.759);
+    font-size: 0.6rem;
+}
+
+.crtlLogo{
+
+    width: 85px;
+}
+
+.myLogo{
+
+    width: 100%;
+}
