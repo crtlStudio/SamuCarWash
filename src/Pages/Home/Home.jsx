@@ -14,7 +14,7 @@ import logo from '../../Images/fht1.jpeg'
 
 export default function Home() {
 
-const numero = '351916037361'
+const numero = '351914268161'
 const url = `https://wa.me/${numero}`
 
 
