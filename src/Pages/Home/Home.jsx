@@ -101,7 +101,7 @@ const url = `https://wa.me/${numero}`
 
             <div className={styles.bloco}>
                 <div className={styles.redesContent}>
-                    <a href='https://www.facebook.com/search/top?q=samu%20car%20wash&locale=pt_PT'  
+                    <a href='https://www.facebook.com/profile.php?id=61589358083659&locale=pt_PT'  
                         target="_blank" rel="noopener noreferrer" >
                         <img src={face} alt='whatsApp' className={styles.redes} />
                     </a>                           
