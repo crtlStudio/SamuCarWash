@@ -1,22 +1,34 @@
 import styles from './Marcacao.module.css'
-import { useState } from 'react'
-import { useParams, Navigate } from 'react-router-dom'
-import { SERVICOS } from '../../data/servicos'
+import { useParams, Navigate, Link } from 'react-router-dom'
 import { HORARIO } from '../../data/horario'
 import { getHorasLivres } from '../../utils/disponibilidade'
 import { inicioDoDia, somarDias, segundaDaSemana, mesmoDia } from '../../utils/datas'
 import arrow from '../../Images/next.png'
-import { Link } from 'react-router-dom'
 import carro from '../../Images/wash.png'
 import relogio from '../../Images/wall-clock.png'
 import { VEICULOS } from '../../data/veiculos'
 
+import { useEffect, useState } from 'react'
+import { supabase } from '../../lib/supabase'
 
 
 export default function Marcacao() {
 
     const { servicoId } = useParams()
-    const servico = SERVICOS.find((s) => s.id === servicoId)
+    const [servico, setServico] = useState(undefined)  // undefined = a carregar; null = não encontrado
+
+    useEffect(() => {
+        supabase
+        .from('services')
+        .select('*')
+        .eq('slug', servicoId)
+        .eq('active', true)
+        .maybeSingle()
+        .then(({ data, error }) => {
+        if (error) console.error('Erro ao carregar serviço:', error)
+        setServico(data) // null se não existir
+        })
+    }, [servicoId])
 
     const hoje = inicioDoDia(new Date())
     const primeiroDia = hoje.getDay() === 0 ? somarDias(hoje, 1) : hoje
@@ -25,14 +37,60 @@ export default function Marcacao() {
     const [dia, setDia] = useState(primeiroDia)
     const [semana, setSemana] = useState(primeiraSemana)
     const [hora, setHora] = useState(null)
-    
+
     const [nome, setNome] = useState('')
     const [telemovel, setTelemovel] = useState('')
     const [marca, setMarca] = useState('')
     const [modelo, setModelo] = useState('')
-    
 
-    if (!servico) return <Navigate to="/" replace />
+    const [ocupados, setOcupados] = useState([])
+
+    useEffect(() => {
+        const inicioDia = new Date(dia)
+        inicioDia.setHours(0, 0, 0, 0)
+        const fimDia = new Date(dia)
+        fimDia.setHours(23, 59, 59, 999)
+
+        supabase
+            .rpc('get_busy_slots', {
+                p_from: inicioDia.toISOString(),
+                p_to: fimDia.toISOString(),
+            })
+            .then(({ data, error }) => {
+                if (error) {
+                    console.error('Erro ao carregar horas ocupadas:', error)
+                    return
+                }
+                setOcupados(
+                    data.map((o) => ({
+                        inicio: new Date(o.starts_at),
+                        fim: new Date(o.ends_at),
+                    }))
+                )
+            })
+    }, [dia])
+
+    const [aEnviar, setAEnviar] = useState(false)
+    const [erro, setErro] = useState('')
+    const [confirmada, setConfirmada] = useState(null) // guarda o resultado da marcação feita
+
+    if (servico === undefined) return null // ainda a carregar
+    if (servico === null) return <Navigate to="/" replace /> // não existe
+
+    if (confirmada) {
+    return (
+            <div className={styles.sucessoContent}>
+                <h2>Pré-reserva guardada</h2>
+                <p>Aguarde confirmação.</p>
+                <p>
+                    {servico.name} · {hora.toLocaleDateString('pt-PT')} às{' '}
+                    {hora.toLocaleTimeString('pt-PT', { hour: '2-digit', minute: '2-digit' })}
+                </p>
+                <Link to="/" className={styles.voltar}>Voltar ao início</Link>
+            </div>
+        )
+    }
+
     const podeConfirmar = hora !== null && nome.trim() !== '' && telemovel.trim() !== ''
 
     const dias = Array.from({ length: 7 }, (_, i) => somarDias(semana, i))
@@ -49,17 +107,47 @@ export default function Marcacao() {
 
     const horasLivres = getHorasLivres({
         data: dia,
-        duracaoMin: servico.duracaoMin,
-        passoMin: servico.duracaoMin,
+        duracaoMin: servico.duration_minutes,
+        passoMin: servico.duration_minutes,
+        ocupados,
     })
 
     const DIAS_SEMANA = ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sáb']
 
-    function handleSubmit(e) {
-        e.preventDefault() // evita que a página recarregue
-        console.log({ nome, telemovel, marca, modelo }) // por agora só mostra na consola
+    function mensagemDeErro(msg) {
+        if (msg.includes('slot_taken')) return 'Essa hora acabou de ser marcada por outra pessoa. Escolhe outra.'
+        if (msg.includes('outside_business_hours')) return 'Essa hora já não está disponível.'
+        if (msg.includes('slot_blocked')) return 'Essa hora está bloqueada.'
+        if (msg.includes('in_the_past')) return 'Escolhe uma hora no futuro.'
+        return 'Não foi possível confirmar a marcação. Tenta outra vez.'
     }
-    
+
+    async function handleSubmit(e) {
+        e.preventDefault()
+        if (!podeConfirmar) return
+
+        setAEnviar(true)
+        setErro('')
+
+        const { data, error } = await supabase.rpc('create_booking', {
+            p_service_slug: servicoId,
+            p_starts_at: hora.toISOString(),
+            p_name: nome.trim(),
+            p_phone: telemovel.trim(),
+            p_brand: marca,
+            p_model: modelo,
+        })
+
+        setAEnviar(false)
+
+        if (error) {
+            setErro(mensagemDeErro(error.message))
+            return
+        }
+
+        setConfirmada(data)
+    }
+
     function escolherMarca(e) {
         setMarca(e.target.value)
         setModelo('') // ao mudar de marca, o modelo antigo deixa de valer
@@ -88,18 +176,18 @@ export default function Marcacao() {
         </div>
 
         <div className={styles.tipoContent}>
-            <h2 className={styles.servico}>{servico.nome}</h2>
-            <p className={styles.descricaoServivo}>{servico.descricao}</p>
+            <h2 className={styles.servico}>{servico.name}</h2>
+            <p className={styles.descricaoServivo}>{servico.description}</p>
         </div>
 
         <div className={styles.precoContent}>
-            <p className={styles.preco}>{servico.preco}€</p>
+            <p className={styles.preco}>{servico.price}€</p>
 
             <div className={styles.tempoContent}>
                 <div className={styles.relogioContent}>
                     <img src={relogio} alt='relogio' className={styles.relogio} />
                 </div>
-                <p className={styles.tempo}>{servico.duracaoMin / 60}h</p>
+                <p className={styles.tempo}>{servico.duration_minutes / 60}h</p>
             </div>
         </div>
     </section>
@@ -165,7 +253,7 @@ export default function Marcacao() {
     {/* Card dados */}
     <section className={styles.dadosContent}>
         <h3 className={styles.titulo}>Dados da marcação</h3>
-        
+
         <form onSubmit={handleSubmit} className={styles.form}>
 
                 <input className={styles.label}
@@ -207,14 +295,16 @@ export default function Marcacao() {
                     ))}
                 </select>
 
+                {erro && <p className={styles.erro}>{erro}</p>}
+
                 <button
                     type="submit"
-                    disabled={!podeConfirmar}
+                    disabled={!podeConfirmar || aEnviar}
                     className={styles.confirmar}
                 >
-                    Confirmar marcação
-                </button>            
-        </form>     
+                    {aEnviar ? 'A confirmar...' : 'Confirmar marcação'}
+                </button>
+        </form>
     </section>
     </>
   )
