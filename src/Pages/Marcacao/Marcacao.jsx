@@ -6,7 +6,7 @@ import { inicioDoDia, somarDias, segundaDaSemana, mesmoDia } from '../../utils/d
 import arrow from '../../Images/next.png'
 import carro from '../../Images/wash.png'
 import relogio from '../../Images/wall-clock.png'
-import { VEICULOS } from '../../data/veiculos'
+
 
 import { useEffect, useState } from 'react'
 import { supabase } from '../../lib/supabase'
@@ -45,6 +45,8 @@ export default function Marcacao() {
 
     const [ocupados, setOcupados] = useState([])
 
+    const [veiculos, setVeiculos] = useState({})
+
     useEffect(() => {
         const inicioDia = new Date(dia)
         inicioDia.setHours(0, 0, 0, 0)
@@ -69,6 +71,26 @@ export default function Marcacao() {
                 )
             })
     }, [dia])
+
+    useEffect(() => {
+    supabase
+        .from('vehicle_brands')
+        .select('name, vehicle_models(name)')
+        .order('name')
+        .then(({ data, error }) => {
+            if (error) {
+                console.error('Erro ao carregar veículos:', error)
+                return
+            }
+            const lista = {}
+            data.forEach((b) => {
+                lista[b.name] = b.vehicle_models
+                    .map((m) => m.name)
+                    .sort((a, c) => a.localeCompare(c, 'pt', { numeric: true }))
+            })
+            setVeiculos(lista)
+        })
+    }, [])
 
     const [aEnviar, setAEnviar] = useState(false)
     const [erro, setErro] = useState('')
@@ -277,7 +299,7 @@ export default function Marcacao() {
 
                 <select className={styles.dropBox} value={marca} onChange={escolherMarca} required>
                     <option value="">Marca</option>
-                        {Object.keys(VEICULOS).sort().map((m) => (
+                        {Object.keys(veiculos).sort().map((m) => (
                     <option key={m} value={m}>{m}</option>
                 ))}
                 </select>
@@ -290,7 +312,7 @@ export default function Marcacao() {
                     required
                 >
                     <option value="">Modelo</option>
-                        {(VEICULOS[marca] ?? []).map((m) => (
+                        {(veiculos[marca] ?? []).map((m) => (
                     <option key={m} value={m}>{m}</option>
                     ))}
                 </select>
