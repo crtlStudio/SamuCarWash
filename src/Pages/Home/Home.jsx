@@ -1,8 +1,6 @@
+import { useEffect, useState } from 'react'
 import styles from './Home.module.css'
 import { Link } from 'react-router-dom'
-import interior from '../../Images/car-wash.png'
-import exterior from '../../Images/upholstery.png'
-import completa from '../../Images/full-service.png'
 import arrow from '../../Images/next.png'
 import whats from '../../Images/whats.png'
 import face from '../../Images/facebook.png'
@@ -10,14 +8,44 @@ import pin from '../../Images/location.png'
 import linhas from '../../Images/linhas.png'
 import CrtlStudio from '../../Components/crtlStudio'
 import logo from '../../Images/fht1.jpeg'
+import { supabase } from '../../lib/supabase'
 
-
+function formatarDuracao(min) {
+    if (min < 60) return `${min} min`
+    const h = Math.floor(min / 60)
+    const m = min % 60
+    return m === 0 ? `${h}h` : `${h}h${String(m).padStart(2, '0')}`
+}
 
 export default function Home() {
 
 const numero = '351914268161'
 const url = `https://wa.me/${numero}`
 
+const [packs, setPacks] = useState(undefined) // undefined = a carregar
+const [aberto, setAberto] = useState(false)
+const [escolhido, setEscolhido] = useState(null)
+
+useEffect(() => {
+    supabase
+        .from('services')
+        .select('id, slug, name, description, price, duration_minutes')
+        .eq('active', true)
+        .order('sort_order')
+        .then(({ data, error }) => {
+            if (error) {
+                console.error('Erro ao carregar packs:', error)
+                setPacks([])
+                return
+            }
+            setPacks(data)
+        })
+}, [])
+
+function escolher(p) {
+    setEscolhido(p)
+    setAberto(false)
+}
 
   return (
     <div className={styles.Container}>
@@ -26,63 +54,69 @@ const url = `https://wa.me/${numero}`
             <img className={styles.Logo} src={logo} alt="Logo" />
         </div>
 
+        <div className={styles.banner} translate="no">
+            <span className={styles.bannerTexto}>Novos pack's</span>
+        </div>
+
         <div className={styles.texto}>
             <h1>Nova marcação</h1>
         </div>
 
-        <div className={styles.cardContent}>
+        <div className={styles.packsContent}>
 
-            <div className={styles.cardItem}>
-                <div className={styles.iconContent}>
-                    <img src={interior} alt='interior' className={styles.icon} />
-                </div>
+            {packs === undefined && <p className={styles.aviso}>A carregar...</p>}
 
-                <div className={styles.descrição}>
-                    <h3> Lavagem interior</h3>
-                    <p style={{color: 'rgb(209, 49, 49)', marginTop:'5px', fontSize:'0.7rem'}}>12€</p>
-                </div>
+            {packs && packs.length === 0 && (
+                <p className={styles.aviso}>Packs brevemente disponíveis.</p>
+            )}
 
-               <Link to="/marcar/interior" className={styles.card}>
-                    <div className={styles.arrowContent}>
-                        <img src={arrow} alt="" className={styles.arrow} />
-                    </div>
-                </Link>
-            </div>
+            {packs && packs.length > 0 && (
+                <>
+                    <button
+                        type="button"
+                        className={`${styles.dropBotao} ${aberto ? styles.dropBotaoAberto : ''}`}
+                        onClick={() => setAberto((v) => !v)}
+                    >
+                        <span>{escolhido ? escolhido.name : 'Escolhe o teu pack'}</span>
+                        <span className={`${styles.seta} ${aberto ? styles.setaAberta : ''}`}>▾</span>
+                    </button>
 
-            <div className={styles.cardItem}>
-                <div className={styles.iconContent}>
-                    <img src={exterior} alt='exterior' className={styles.icon} />
-                </div>
+                    {aberto && (
+                        <ul className={styles.dropLista}>
+                            {packs.map((p) => (
+                                <li key={p.id}>
+                                    <button
+                                        type="button"
+                                        className={styles.dropItem}
+                                        onClick={() => escolher(p)}
+                                    >
+                                        <span>{p.name}</span>
+                                        <span className={styles.dropPreco}>{p.price}€</span>
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
+                    )}
 
-                <div className={styles.descrição}>
-                    <h3> Lavagem exterior</h3>
-                    <p style={{color: 'rgb(214, 56, 56)', marginTop:'5px', fontSize:'0.8rem'}}> 12€</p>
-                </div>
+                    {escolhido && !aberto && (
+                        <div className={styles.detalhe}>
+                            <div className={styles.detalheTexto}>
+                                <h3>{escolhido.name}</h3>
+                                {escolhido.description && <p>{escolhido.description}</p>}
+                                <p className={styles.detalheMeta}>
+                                    <span className={styles.detalhePreco}>{escolhido.price}€</span>
+                                    <span> · {formatarDuracao(escolhido.duration_minutes)}</span>
+                                </p>
+                            </div>
 
-                <Link to="/marcar/exterior" className={styles.card}>
-                    <div className={styles.arrowContent}>
-                        <img src={arrow} alt="" className={styles.arrow} />
-                    </div>
-                </Link>
-            </div>
-
-            <div className={styles.cardItem1}>                
-                <div className={styles.iconContent}>
-                    <img src={completa} alt='completo' className={styles.icon} />
-                </div>
-
-                <div className={styles.descrição}>
-                    <h3> Pack completo</h3>
-                    <h3></h3>
-                    <p style={{color: 'rgb(223, 122, 49)', marginTop:'5px', fontSize:'0.8rem'}}> 20€</p>
-                </div>
-
-                 <Link to="/marcar/completo" className={styles.card}>
-                    <div className={styles.arrowContent}>
-                        <img src={arrow} alt="" className={styles.arrow} />
-                    </div>
-                </Link>
-            </div>
+                            <Link to={`/marcar/${escolhido.slug}`} className={styles.marcar}>
+                                <span>Marcar</span>
+                                <img src={arrow} alt="" className={styles.marcarSeta} />
+                            </Link>
+                        </div>
+                    )}
+                </>
+            )}
 
         </div>
 

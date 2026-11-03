@@ -32,7 +32,7 @@
 
 .texto{
 
-    margin-top: -45px;
+    margin-top: 50px;
     margin-left: 10px;
     color: white;
     font-size: 0.7rem;
@@ -204,4 +204,180 @@
 .myLogo{
 
     width: 100%;
+}
+
+/* ---------- Banner "Novos pack's" ---------- */
+.banner{
+
+    width: 100%;
+    margin-top: -40px;
+    text-align: center;
+}
+
+.bannerTexto{
+
+    display: inline-block;
+    font-size: 1.9rem;
+    font-weight: 800;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgb(214, 30, 30);
+    text-shadow: 0 0 14px rgba(255, 0, 0, 0.45), 2px 2px 0 rgba(0, 0, 0, 0.6);
+    transform: rotate(-3deg);
+}
+
+/* ---------- Dropbox de packs ---------- */
+.packsContent{
+
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 10px 0 55px 10px;
+    width: 95%;
+}
+
+.aviso{
+
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.85rem;
+}
+
+.dropBotao{
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 16px;
+    border: none;
+    border-left: 5px solid rgb(182, 12, 12);
+    border-radius: 12px;
+    background-color: rgba(26, 25, 25, 0.84);
+    color: white;
+    font-family: inherit;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.dropBotaoAberto{
+
+    box-shadow: 5px 5px 12px 1px rgba(255, 0, 0, 0.232);
+}
+
+.seta{
+
+    color: rgb(214, 56, 56);
+    font-size: 1.2rem;
+    transition: transform 0.2s;
+}
+
+.setaAberta{
+
+    transform: rotate(180deg);
+}
+
+.dropLista{
+
+    list-style: none;
+    margin: 0;
+    padding: 6px;
+    border-radius: 12px;
+    background-color: rgba(40, 38, 38, 0.97);
+    border-left: 5px solid rgb(182, 12, 12);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.dropItem{
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 14px 12px;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    color: white;
+    font-family: inherit;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    text-align: left;
+    cursor: pointer;
+}
+
+.dropItem:hover,
+.dropItem:active{
+
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+.dropPreco{
+
+    color: rgb(223, 122, 49);
+    font-size: 0.85rem;
+}
+
+/* ---------- Detalhe do pack escolhido ---------- */
+.detalhe{
+
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 12px;
+    padding: 15px;
+    border-radius: 12px;
+    border-left: 5px solid rgb(182, 12, 12);
+    background-color: rgba(57, 52, 52, 0.638);
+    box-shadow: 5px 5px 12px 1px rgba(255, 0, 0, 0.232);
+}
+
+.detalheTexto{
+
+    color: white;
+}
+
+.detalheTexto h3{
+
+    font-size: 0.9rem;
+    text-transform: uppercase;
+}
+
+.detalheTexto p{
+
+    margin-top: 5px;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.detalheMeta{
+
+    font-size: 0.8rem;
+}
+
+.detalhePreco{
+
+    color: rgb(223, 122, 49);
+    font-weight: 700;
+}
+
+.marcar{
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border-radius: 24px;
+    background-color: rgb(182, 12, 12);
+    color: white;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.marcarSeta{
+
+    width: 18px;
 }
