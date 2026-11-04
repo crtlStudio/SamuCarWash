@@ -7,7 +7,7 @@ import face from '../../Images/facebook.png'
 import pin from '../../Images/location.png'
 import linhas from '../../Images/linhas.png'
 import CrtlStudio from '../../Components/crtlStudio'
-import logo from '../../Images/fht1.jpeg'
+import logo from '../../Images/Group 1.png'
 import { supabase } from '../../lib/supabase'
 
 function formatarDuracao(min) {
