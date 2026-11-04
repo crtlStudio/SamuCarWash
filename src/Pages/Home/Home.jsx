@@ -55,7 +55,7 @@ function escolher(p) {
         </div>
 
         <div className={styles.banner} translate="no">
-            <span className={styles.bannerTexto}>Novos pack's</span>
+            <span className={styles.bannerTexto}>6 Novos pack's</span>
         </div>
 
         <div className={styles.texto}>
